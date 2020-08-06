@@ -18,7 +18,7 @@ resource "null_resource" "import-cluster" {
   
   provisioner "local-exec" {
     command = "chmod 755 ${path.module}/scripts/manage_target_cluster.sh && ${path.module}/scripts/manage_target_cluster.sh -ac import -wd ${var.work_directory}"
-    environment {
+    environment = {
       ## Required
       CLUSTER_NAME                = var.cluster_name
       OCP_URL                     = var.ocp_api_endpoint
