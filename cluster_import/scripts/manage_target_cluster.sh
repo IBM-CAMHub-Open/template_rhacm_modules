@@ -437,9 +437,10 @@ if [ -z "$(echo "${WORK_DIR}" | tr -d '[:space:]')" ]; then
     exitOnError "Location of the work directory has not been specified"
 fi
 
-
-sed -i -e "s/@cluster_name@/${CLUSTER_NAME}/" ${WORK_DIR}/klusterletaddonconfig.yaml
-sed -i -e "s/@cluster_name@/${CLUSTER_NAME}/" ${WORK_DIR}/managedcluster.yaml
+if [ "${ACTION}" == "import" ]; then
+	sed -i -e "s/@cluster_name@/${CLUSTER_NAME}/" ${WORK_DIR}/klusterletaddonconfig.yaml
+	sed -i -e "s/@cluster_name@/${CLUSTER_NAME}/" ${WORK_DIR}/managedcluster.yaml
+fi
 		
 
 ## Prepare work directory
