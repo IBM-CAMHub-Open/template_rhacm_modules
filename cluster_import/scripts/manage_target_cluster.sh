@@ -97,15 +97,33 @@ function installOCLocally() {
 
 ## Verify that required details pertaining to the MCM hub-cluster have been provided
 function verifyMcmHubClusterInformation() {
+	ISTOKEN="false"
+	ISUSER="false"
+	ISPASSWORD="false"
     if [ -z "$(echo "${OCP_URL}" | tr -d '[:space:]')" ]; then
         exitOnError "OCP API URL is not available"
     fi
+	if [ -z "$(echo "${OCP_TOKEN}" | tr -d '[:space:]')" ]; then
+		echo "OCP token is not available"
+        ISTOKEN="false"
+	else
+		ISTOKEN="true"
+    fi    
     if [ -z "$(echo "${OCP_USER}" | tr -d '[:space:]')" ]; then
-        exitOnError "OCP admin username is not available"
+		echo "OCP user is not available"		
+        ISUSER="false"
+	else
+		ISUSER="true"
     fi
     if [ -z "$(echo "${OCP_PASSWORD}" | tr -d '[:space:]')" ]; then
-        exitOnError "OCP admin password is not available"
+		echo "OCP password is not available"		
+        ISPASSWORD="false"
+	else
+		ISPASSWORD="true"
     fi
+    if [[ "${ISTOKEN}" == "false" && ( "${ISUSER}" == "false" || "${ISPASSWORD}" == "false") ]]; then
+    	exitOnError "OCP token or user/password is not available"
+	fi
 	if [ -z "$(echo "${OCP_CA_CERT}" | tr -d '[:space:]')" ]; then
         echo "OCP CA Certificate is not available"
 	else
@@ -170,12 +188,42 @@ function verifyTargetClusterAccess() {
 ## Authenticate with MCM hub-cluster in order to perform import/remove operations
 function ocClusterLogin() {
     echo "Logging into the hub cluster OCP ..."
-    if [ -z "$(echo "${OCP_CA_CERT}" | tr -d '[:space:]')" ]; then
-    	${WORK_DIR}/bin/oc login ${OCP_URL} --username=${OCP_USER} --password=${OCP_PASSWORD} --insecure-skip-tls-verify=true --kubeconfig ${WORK_DIR}/bin/.kube/config
+    ISTOKEN="false"
+	ISUSER="false"
+	ISPASSWORD="false"
+	OCLOGIN="--kubeconfig ${WORK_DIR}/bin/.kube/config"
+	if [ -z "$(echo "${OCP_TOKEN}" | tr -d '[:space:]')" ]; then
+		echo "OCP token is not available"
+        ISTOKEN="false"
 	else
-		
-		${WORK_DIR}/bin/oc login ${OCP_URL} --username=${OCP_USER} --password=${OCP_PASSWORD} --certificate-authority=${WORK_DIR}/cert --kubeconfig ${WORK_DIR}/bin/.kube/config
+		ISTOKEN="true"
+    fi    
+    if [ -z "$(echo "${OCP_USER}" | tr -d '[:space:]')" ]; then
+		echo "OCP user is not available"		
+        ISUSER="false"
+	else
+		ISUSER="true"
+    fi
+    if [ -z "$(echo "${OCP_PASSWORD}" | tr -d '[:space:]')" ]; then
+		echo "OCP password is not available"		
+        ISPASSWORD="false"
+	else
+		ISPASSWORD="true"
+    fi
+	if [ -z "$(echo "${OCP_CA_CERT}" | tr -d '[:space:]')" ]; then
+        OCLOGIN="${OCLOGIN} --insecure-skip-tls-verify=true"
+	else
+		OCLOGIN="${OCLOGIN} --certificate-authority=${WORK_DIR}/cert"
+    fi    
+    if [[ "${ISTOKEN}" == "true" ]]; then
+		OCLOGIN="${OCLOGIN} --token ${OCP_TOKEN}"
+	elif [[ "${ISUSER}" == "true" && "${ISPASSWORD}" == "true" ]]; then
+    	OCLOGIN="${OCLOGIN} --username=${OCP_USER} --password=${OCP_PASSWORD}"
+	else
+		exitOnError "OCP token or user/password is missing"
 	fi
+	
+	${WORK_DIR}/bin/oc login ${OCP_URL} ${OCLOGIN}
 }
 
 ## Logout from the MCM hub-cluster
@@ -417,6 +465,7 @@ while test ${#} -gt 0; do
     [[ $1 =~ ^-hu|--hubuser ]]          && { OCP_USER="${2}";                    shift 2; continue; };
     [[ $1 =~ ^-hp|--hubpassword ]]      && { OCP_PASSWORD="${2}";                shift 2; continue; };
     [[ $1 =~ ^-hc|--hubcacert ]]        && { OCP_CA_CERT="${2}";                 shift 2; continue; };    	
+    [[ $1 =~ ^-ht|--hubtoken  ]]        && { OCP_TOKEN="${2}";                   shift 2; continue; };    	
     [[ $1 =~ ^-ce|--clusterendpoint ]]  && { CLUSTER_ENDPOINT="${2}";            shift 2; continue; };
     [[ $1 =~ ^-cu|--clusteruser ]]      && { CLUSTER_USER="${2}";                shift 2; continue; };
     [[ $1 =~ ^-ck|--clustertoken ]]     && { CLUSTER_TOKEN="${2}";               shift 2; continue; };

@@ -7,6 +7,10 @@ variable "ocp_api_endpoint" {
   description = "Red Hat OCP API Endpoint URL used in oc login command. Example https://api.<>:<port>."
 }
 
+variable "ocp_token" {
+  description = "Token for connecting to the Red Hat OCP using oc login command."
+}
+
 variable "ocp_user" {
   description = "Username for connecting to the Red Hat OCP using oc login command."
 }
