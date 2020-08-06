@@ -438,8 +438,8 @@ if [ -z "$(echo "${WORK_DIR}" | tr -d '[:space:]')" ]; then
 fi
 
 
-sudo sed -i -e "s/@cluster_name@/${CLUSTER_NAME}/" ${WORK_DIR}/klusterletaddonconfig.yaml
-sudo sed -i -e "s/@cluster_name@/${CLUSTER_NAME}/" ${WORK_DIR}/managedcluster.yaml
+sed -i -e "s/@cluster_name@/${CLUSTER_NAME}/" ${WORK_DIR}/klusterletaddonconfig.yaml
+sed -i -e "s/@cluster_name@/${CLUSTER_NAME}/" ${WORK_DIR}/managedcluster.yaml
 		
 
 ## Prepare work directory
