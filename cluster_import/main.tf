@@ -13,7 +13,7 @@ resource "null_resource" "import-cluster" {
   depends_on = [null_resource.wait-for-prerequisite]
   
   provisioner "local-exec" {
-  	command = "cp ${path.module}/scripts/klusterletaddonconfig.tmpl ${var.work_directory}/klusterletaddonconfig.yaml && cp ${path.module}/scripts/managedcluster.tmpl ${var.work_directory}/managedcluster.yaml"
+  	command = "mkdir -p ${var.work_directory} && cp ${path.module}/scripts/klusterletaddonconfig.tmpl ${var.work_directory}/klusterletaddonconfig.yaml && cp ${path.module}/scripts/managedcluster.tmpl ${var.work_directory}/managedcluster.yaml"
   }
   
   provisioner "local-exec" {
