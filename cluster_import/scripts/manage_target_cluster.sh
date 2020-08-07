@@ -274,16 +274,16 @@ function prepareClusterImport() {
 	echo "Generating klusterlet-crd file for target cluster ${CLUSTER_NAME}..."
 	${WORK_DIR}/bin/oc get secret ${CLUSTER_NAME}-import -n ${CLUSTER_NAME} -o jsonpath={.data.crds\\.yaml} --kubeconfig ${WORK_DIR}/bin/.kube/config | base64 --decode > ${KLUSTERLET_CRD_FILE}
 	echo "Klusterlet CRD file for target cluster created"
-    echo "==============================================="
-    cat ${KLUSTERLET_CRD_FILE}
-    echo "==============================================="
+    #echo "==============================================="
+    #cat ${KLUSTERLET_CRD_FILE}
+    #echo "==============================================="
     	
 	echo "Generating import file for target cluster ${CLUSTER_NAME}..."
 	${WORK_DIR}/bin/oc get secret ${CLUSTER_NAME}-import -n ${CLUSTER_NAME} -o jsonpath={.data.import\\.yaml} --kubeconfig ${WORK_DIR}/bin/.kube/config | base64 --decode > ${IMPORT_FILE}
     echo "Import file for target cluster created"
-    echo "==============================================="
-    cat ${IMPORT_FILE}
-    echo "==============================================="
+    #echo "==============================================="
+    #cat ${IMPORT_FILE}
+    #echo "==============================================="
     
     IMPORT_STATUS="prepared"
 
