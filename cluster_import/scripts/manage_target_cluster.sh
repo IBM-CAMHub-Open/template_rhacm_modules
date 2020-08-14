@@ -35,12 +35,6 @@
 ##   -cc|--clustercreds <CLUSTER_CREDENTIALS>       JSON-formated file containing cluster endpoint, user and token information;
 ##                                                  Supercedes the individual cluster endpoint, user and token inputs
 ##   
-## Optional:
-##   -ir|--imageregistry <IMAGE_REGISTRY>           Name of the registry containing the MCM image(s)
-##   -ix|--imagesuffix <IMAGE_SUFFIX>               Suffix (e.g. platform type) to be appended to image name
-##   -iv|--imageversion <IMAGE_VERSION>             Version (tag) of the MCM image to be pulled
-##   -du|--dockeruser <DOCKER_USER>                 User name for authenticating with the image registry
-##   -dp|--dockerpassword <DOCKER_PASSWORD>         Password for authenticating with the image registry
 ##------------------------------------------------------------------------------
 
 set -e
@@ -471,11 +465,7 @@ while test ${#} -gt 0; do
     [[ $1 =~ ^-ck|--clustertoken ]]     && { CLUSTER_TOKEN="${2}";               shift 2; continue; };
     [[ $1 =~ ^-cc|--clustercreds ]]     && { CLUSTER_CREDENTIALS="${2}";         shift 2; continue; };
 
-    [[ $1 =~ ^-ir|--imageregistry ]]    && { IMAGE_REGISTRY="${2}";              shift 2; continue; };
-    [[ $1 =~ ^-ix|--imagesuffix ]]      && { IMAGE_SUFFIX="${2}";                shift 2; continue; };
-    [[ $1 =~ ^-iv|--imageversion ]]     && { IMAGE_VERSION="${2}";               shift 2; continue; };
-    [[ $1 =~ ^-du|--dockeruser ]]       && { DOCKER_USER="${2}";                 shift 2; continue; };
-    [[ $1 =~ ^-dp|--dockerpassword ]]   && { DOCKER_PASSWORD="${2}";             shift 2; continue; };
+
     break;
 done
 ACTION="$(echo "${ACTION}" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')"

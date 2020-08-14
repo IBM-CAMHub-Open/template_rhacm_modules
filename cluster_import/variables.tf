@@ -48,31 +48,6 @@ variable "cluster_credentials" {
   default = ""
 }
 
-variable "image_registry" {
-  description = "URL for private docker registry from which klusterlet images will be pulled"
-  default = ""
-}
-
-variable "image_suffix" {
-  description = "Suffix (e.g. platform type) to be appended to image name"
-  default = ""
-}
-
-variable "image_version" {
-  description = "Version (tag) of the MCM image to be pulled"
-  default = ""
-}
-
-variable "docker_user" {
-  description = "Username for authenticating with the private docker registry"
-  default = ""
-}
-
-variable "docker_password" {
-  description = "Password for authenticating with the private docker registry"
-  default = ""
-}
-
 variable "work_directory" {
   description = "Path of the temporary directory where work files will be generated"
   default = ""

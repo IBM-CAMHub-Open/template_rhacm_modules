@@ -32,9 +32,4 @@ The terraform template performs the following activities to import the specified
 | cluster_user                    | Username for accessing the target Kubernetes cluster. | true |
 | cluster_token                   | Token for authenticating with the target Kubernetes cluster. | true |
 | cluster_credentials             | JSON-formatted file containing the cluster name, endpoint, user and token information.| | 
-| image_registry                  | URL for private docker registry from which klusterlet images will be pulled. | |
-| image_suffix                    | Suffix (e.g. platform type) to be appended to image name. | |
-| image_version                   | Version (tag) of the MCM image to be pulled. | |
-| docker_user                     | Username for authenticating with the private docker registry. | |
-| docker_password                 | Password for authenticating with the private docker registry. | |
 | work_directory				  | Path of the temporary directory where work files will be generated. | | 

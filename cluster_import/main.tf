@@ -32,13 +32,6 @@ resource "null_resource" "import-cluster" {
       CLUSTER_USER                = var.cluster_user
       CLUSTER_TOKEN               = var.cluster_token
       CLUSTER_CREDENTIALS         = var.cluster_credentials
-
-      ## Private docker registry
-      IMAGE_REGISTRY              = var.image_registry
-      IMAGE_SUFFIX                = var.image_suffix
-      IMAGE_VERSION               = var.image_version
-      DOCKER_USER                 = var.docker_user
-      DOCKER_PASSWORD             = var.docker_password
     }
   }
 }
