@@ -222,8 +222,13 @@ function ocClusterLogin() {
 
 ## Logout from the MCM hub-cluster
 function ocClusterLogout() {
-    echo "Logging out of OC on hub cluster..."
-    ${WORK_DIR}/bin/oc logout --kubeconfig ${WORK_DIR}/bin/.kube/config
+	if [ -z "$(echo "${OCP_TOKEN}" | tr -d '[:space:]')" ]; then
+		echo "Logging out of OC on hub cluster..."
+    	${WORK_DIR}/bin/oc logout --kubeconfig ${WORK_DIR}/bin/.kube/config
+	else
+		echo "OCP token is used for login. Do not logout to protect token from being deleted.
+    fi
+
 }
 
 ## Prepare for the target cluster to be imported into the hub cluster:
@@ -281,8 +286,8 @@ function prepareClusterImport() {
     
     IMPORT_STATUS="prepared"
 
-    ## Disconnect from hub cluster -- Do not logout token will get deleted.
-    #ocClusterLogout
+    ## Disconnect from hub cluster.
+    ocClusterLogout
 }
 
 ## Initiate the import of the target cluster
