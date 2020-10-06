@@ -226,7 +226,7 @@ function ocClusterLogout() {
 		echo "Logging out of OC on hub cluster..."
     	${WORK_DIR}/bin/oc logout --kubeconfig ${WORK_DIR}/bin/.kube/config
 	else
-		echo "OCP token is used for login. Do not logout to protect token from being deleted.
+		echo "OCP token is used for login. Do not logout to protect token from being deleted."
     fi
 
 }
