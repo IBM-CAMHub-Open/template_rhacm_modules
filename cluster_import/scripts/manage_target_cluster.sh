@@ -281,8 +281,8 @@ function prepareClusterImport() {
     
     IMPORT_STATUS="prepared"
 
-    ## Disconnect from hub cluster
-    ocClusterLogout
+    ## Disconnect from hub cluster -- Do not logout token will get deleted.
+    #ocClusterLogout
 }
 
 ## Initiate the import of the target cluster
