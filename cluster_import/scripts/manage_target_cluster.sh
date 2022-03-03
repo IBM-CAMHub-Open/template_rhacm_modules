@@ -67,9 +67,18 @@ function installKubectlLocally() {
     ## Install kubectl, if necessary
     if [ ! -x ${WORK_DIR}/bin/kubectl ]; then
         kversion=$(wget -qO- https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-
+        ARCH="amd64"
+        CURRENTARCH=`arch`
+        if [[ "$CURRENTARCH" == "ppc64le" ]]
+        then
+           ARCH="ppc64le"
+        fi
+        if [[ "$CURRENTARCH" == "s390x" ]]
+        then
+           ARCH="s390x"
+        fi        
         echo "Installing kubectl (version ${kversion}) into ${WORK_DIR}..."
-        wget --quiet https://storage.googleapis.com/kubernetes-release/release/${kversion}/bin/linux/amd64/kubectl -P ${WORK_DIR}/bin
+        wget --quiet https://storage.googleapis.com/kubernetes-release/release/${kversion}/bin/linux/${ARCH}/kubectl -P ${WORK_DIR}/bin
         chmod +x ${WORK_DIR}/bin/kubectl
     else
         echo "kubectl has already been installed; No action taken"
@@ -80,10 +89,17 @@ function installKubectlLocally() {
 function installOCLocally() {
     if [ ! -x ${WORK_DIR}/bin/oc ]; then
         echo "Installing oc into ${WORK_DIR}..."
-        wget --quiet --no-check-certificate https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/openshift-client-linux.tar.gz -P ${WORK_DIR}/bin
-        tar xvf ${WORK_DIR}/bin/openshift-client-linux.tar.gz -C ${WORK_DIR}/bin
-        chmod +x ${WORK_DIR}/bin/oc
-        chmod +x ${WORK_DIR}/bin/kubectl
+        wget --quiet --no-check-certificate ${OCP_CLI_ENDPOINT} -P ${WORK_DIR}/bin
+        FILENAME=$(basename ${OCP_CLI_ENDPOINT})
+        tar xvf ${WORK_DIR}/bin/${FILENAME} -C ${WORK_DIR}/bin
+        if [ -f "${WORK_DIR}/bin/oc" ]
+        then
+            chmod +x ${WORK_DIR}/bin/oc
+        fi
+        if [ -f "${WORK_DIR}/bin/kubectl" ]
+        then
+            chmod +x ${WORK_DIR}/bin/kubectl
+        fi        
     else
         echo "oc client has already been installed; No action taken"
     fi

@@ -25,7 +25,8 @@ resource "null_resource" "import-cluster" {
       OCP_USER                    = var.ocp_user
       OCP_PASSWORD                = var.ocp_password
       OCP_CA_CERT                 = var.ocp_ca_cert
-      OCP_TOKEN					  = var.ocp_token
+      OCP_TOKEN					          = var.ocp_token
+      OCP_CLI_ENDPOINT            = var.oc_cli_endpoint
 
       ## Cluster details
       CLUSTER_ENDPOINT            = var.cluster_endpoint
@@ -50,7 +51,8 @@ resource "null_resource" "remove-cluster" {
       OCP_USER           = var.ocp_user
       OCP_PASSWORD       = var.ocp_password
       OCP_CA_CERT        = var.ocp_ca_cert
-      OCP_TOKEN			 = var.ocp_token      
+      OCP_TOKEN			     = var.ocp_token      
+      OCP_CLI_ENDPOINT   = var.oc_cli_endpoint
     }
   }
 }
