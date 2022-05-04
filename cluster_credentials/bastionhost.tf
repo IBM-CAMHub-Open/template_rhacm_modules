@@ -24,3 +24,4 @@ variable "bastion_host_key" {
 variable "bastion_password" {
   type = string
 }
+

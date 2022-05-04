@@ -40,19 +40,29 @@ resource "null_resource" "import-cluster" {
 resource "null_resource" "remove-cluster" {
   depends_on = [null_resource.wait-for-prerequisite]
 
+  triggers = {
+    work_directory = var.work_directory
+    cluster_name = var.cluster_name
+    ocp_api_endpoint = var.ocp_api_endpoint
+    ocp_user = var.ocp_user
+    ocp_password = var.ocp_password
+    ocp_ca_cert = var.ocp_ca_cert
+    ocp_token = var.ocp_token
+    oc_cli_endpoint = var.oc_cli_endpoint
+  }  
   provisioner "local-exec" {
     when    = destroy
     command = "chmod 755 ${path.module}/scripts/manage_target_cluster.sh && ${path.module}/scripts/manage_target_cluster.sh -ac remove"
     environment = {
       ## Required
-      WORK_DIR           = var.work_directory
-      CLUSTER_NAME       = var.cluster_name
-      OCP_URL            = var.ocp_api_endpoint
-      OCP_USER           = var.ocp_user
-      OCP_PASSWORD       = var.ocp_password
-      OCP_CA_CERT        = var.ocp_ca_cert
-      OCP_TOKEN			     = var.ocp_token      
-      OCP_CLI_ENDPOINT   = var.oc_cli_endpoint
+      WORK_DIR           = self.triggers.work_directory
+      CLUSTER_NAME       = self.triggers.cluster_name
+      OCP_URL            = self.triggers.ocp_api_endpoint
+      OCP_USER           = self.triggers.ocp_user
+      OCP_PASSWORD       = self.triggers.ocp_password
+      OCP_CA_CERT        = self.triggers.ocp_ca_cert
+      OCP_TOKEN			     = self.triggers.ocp_token      
+      OCP_CLI_ENDPOINT   = self.triggers.oc_cli_endpoint
     }
   }
 }
