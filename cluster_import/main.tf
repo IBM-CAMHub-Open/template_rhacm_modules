@@ -33,6 +33,7 @@ resource "null_resource" "import-cluster" {
       CLUSTER_USER                = var.cluster_user
       CLUSTER_TOKEN               = var.cluster_token
       CLUSTER_CREDENTIALS         = var.cluster_credentials
+      KUBE_CTL_VERSION            = var.kube_ctl_version      
     }
   }
 }

@@ -66,7 +66,12 @@ function installKubectlLocally() {
 
     ## Install kubectl, if necessary
     if [ ! -x ${WORK_DIR}/bin/kubectl ]; then
-        kversion=$(wget -qO- https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+        if [ "${KUBE_CTL_VERSION}" == "latest" ]
+        then
+            kversion=$(wget -qO- https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+        else
+            kversion=${KUBE_CTL_VERSION}
+        fi
         ARCH="amd64"
         CURRENTARCH=`arch`
         if [[ "$CURRENTARCH" == "ppc64le" ]]
