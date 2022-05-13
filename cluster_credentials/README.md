@@ -24,6 +24,7 @@ The terraform module accepts cluster-specific information (e.g. kubeconfig file,
 | cluster_type                    | Indicates the type of environment supporting the target Kubernetes cluster | true | roks, ocp, iks, aks, gke, eks |
 | cluster_name                    | Name of the target cluster to be imported into the MCM hub cluster | true | |
 | work_directory                  | Directory where work files can be generated | | |
+| kube_ctl_version                | kubectl client version to connect to server | | |
 
 For OCP clusters:
 | Parameter Name                  | Parameter Description | Required | Allowed Values |

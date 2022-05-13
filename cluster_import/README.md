@@ -33,3 +33,4 @@ The terraform template performs the following activities to import the specified
 | cluster_token                   | Token for authenticating with the target Kubernetes cluster. | true |
 | cluster_credentials             | JSON-formatted file containing the cluster name, endpoint, user and token information.| | 
 | work_directory				  | Path of the temporary directory where work files will be generated. | | 
+| kube_ctl_version                | kubectl client version to connect to server | | 

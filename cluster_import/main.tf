@@ -27,6 +27,7 @@ resource "null_resource" "import-cluster" {
       OCP_CA_CERT                 = var.ocp_ca_cert
       OCP_TOKEN					          = var.ocp_token
       OCP_CLI_ENDPOINT            = var.oc_cli_endpoint
+      KUBE_CTL_VERSION            = var.kube_ctl_version      
 
       ## Cluster details
       CLUSTER_ENDPOINT            = var.cluster_endpoint
@@ -63,6 +64,7 @@ resource "null_resource" "remove-cluster" {
       OCP_CA_CERT        = self.triggers.ocp_ca_cert
       OCP_TOKEN			     = self.triggers.ocp_token      
       OCP_CLI_ENDPOINT   = self.triggers.oc_cli_endpoint
+      KUBE_CTL_VERSION   = var.kube_ctl_version      
     }
   }
 }
