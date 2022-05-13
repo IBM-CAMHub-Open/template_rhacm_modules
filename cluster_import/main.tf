@@ -50,6 +50,7 @@ resource "null_resource" "remove-cluster" {
     ocp_ca_cert = var.ocp_ca_cert
     ocp_token = var.ocp_token
     oc_cli_endpoint = var.oc_cli_endpoint
+    kube_ctl_version  = var.kube_ctl_version  
   }  
   provisioner "local-exec" {
     when    = destroy
@@ -64,7 +65,7 @@ resource "null_resource" "remove-cluster" {
       OCP_CA_CERT        = self.triggers.ocp_ca_cert
       OCP_TOKEN			     = self.triggers.ocp_token      
       OCP_CLI_ENDPOINT   = self.triggers.oc_cli_endpoint
-      KUBE_CTL_VERSION   = var.kube_ctl_version      
+      KUBE_CTL_VERSION   = self.triggers.kube_ctl_version      
     }
   }
 }
