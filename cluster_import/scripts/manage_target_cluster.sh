@@ -262,6 +262,16 @@ function prepareClusterImport() {
 
     echo "Create new project ${CLUSTER_NAME} ..."
     ${WORK_DIR}/bin/oc new-project ${CLUSTER_NAME} --kubeconfig ${WORK_DIR}/bin/.kube/config
+    proj=$(${WORK_DIR}/bin/oc get project ${CLUSTER_NAME} -o jsonpath='{.status.phase}' --kubeconfig ${WORK_DIR}/bin/.kube/config)
+    counter=0
+    until [[ ${proj} == "Active" ]] || [[ counter -ge 3 ]]
+    do
+    echo "Waiting for Project to be Active. ${proj}"
+    sleep 3
+    counter=$(( counter + 1 ))
+    done
+
+oc get project ${CLUSTER_NAME}
     echo "Add label to new project ${CLUSTER_NAME} ..."
     ${WORK_DIR}/bin/oc label namespace ${CLUSTER_NAME} cluster.open-cluster-management.io/managedCluster=${CLUSTER_NAME} --kubeconfig ${WORK_DIR}/bin/.kube/config
 
